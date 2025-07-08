@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 # pip install numpy requests Pillow matplotlib
 # python SVDCompresser.py
 
+
 def compress_and_show_images(image_url: str):
     """
     Tải ảnh từ URL,
@@ -40,24 +41,23 @@ def compress_and_show_images(image_url: str):
     # Trực quan hóa các giá trị suy biến
     plt.figure(figsize=(10, 5))
     plt.plot(S)
-    plt.title('Phân bố các giá trị suy biến (Singular Values)')
-    plt.ylabel('Giá trị')
-    plt.xlabel('Thứ tự giá trị suy biến')
+    plt.title("Phân bố các giá trị suy biến (Singular Values)")
+    plt.ylabel("Giá trị")
+    plt.xlabel("Thứ tự giá trị suy biến")
     plt.grid(True)
     plt.show()
 
     # Tái tạo và hiển thị ảnh với các giá trị k khác nhau
-    k_values = [5, 20, 50, 100]
+    k_values = [5, 25, 50, 75, 100]
 
-    plt.figure(figsize=(15, 8))
+    plt.figure(figsize=(15, 10))
     plt.subplot(2, 3, 1)
-    plt.imshow(gray_img_array, cmap='gray')
-    plt.title('Ảnh xám gốc')
-    plt.axis('off')
-
+    plt.imshow(gray_img_array, cmap="gray")
     # Kích thước dữ liệu gốc (m*n)
     m, n = gray_img_array.shape
     original_size = m * n
+    plt.title(f"Ảnh xám gốc\nSize: {original_size / 1024:.1f} KB")
+    plt.axis("off")
 
     for i, k in enumerate(k_values):
         # Tái tạo ảnh với k thành phần
@@ -66,20 +66,27 @@ def compress_and_show_images(image_url: str):
         # Kích thước dữ liệu sau khi nén: k*(m+n+1)
         compressed_size = k * (m + n + 1)
         compression_ratio = compressed_size / original_size
+        mse = np.mean((gray_img_array - reconstructed_array) ** 2)
 
         plt.subplot(2, 3, i + 2)
-        plt.imshow(reconstructed_array, cmap='gray')
-        plt.title(f'k = {k}\nTỉ lệ nén: {compression_ratio:.2%}')
-        plt.axis('off')
+        plt.imshow(reconstructed_array, cmap="gray")
+        plt.title(
+            f"k = {k}\nSize: {compressed_size / 1024:.1f} KB ({compression_ratio:.1%})\nMSE: {mse:.2f}"
+        )
+        plt.axis("off")
 
-    plt.suptitle('Nén ảnh thang độ xám bằng SVD', fontsize=16)
+    plt.suptitle("Nén ảnh thang độ xám bằng SVD", fontsize=16)
     plt.tight_layout(rect=[0, 0.03, 1, 0.95], h_pad=4)
     plt.show()
 
     # --- Phần 2: Nén ảnh màu ---
 
     # Tách 3 kênh màu R, G, B
-    R, G, B = original_img_array[:,:,0], original_img_array[:,:,1], original_img_array[:,:,2]
+    R, G, B = (
+        original_img_array[:, :, 0],
+        original_img_array[:, :, 1],
+        original_img_array[:, :, 2],
+    )
 
     # Áp dụng SVD cho từng kênh
     U_r, S_r, Vt_r = np.linalg.svd(R, full_matrices=False)
@@ -87,14 +94,13 @@ def compress_and_show_images(image_url: str):
     U_b, S_b, Vt_b = np.linalg.svd(B, full_matrices=False)
 
     # Tái tạo và hiển thị ảnh màu
-    plt.figure(figsize=(15, 8))
+    plt.figure(figsize=(15, 10))
     plt.subplot(2, 3, 1)
     # Cần chuyển đổi lại sang uint8 để hiển thị đúng màu
     plt.imshow(original_img_array.astype(np.uint8))
-    plt.title('Ảnh màu gốc')
-    plt.axis('off')
-
     original_color_size = original_size * 3
+    plt.title(f"Ảnh màu gốc\nSize: {original_color_size / 1024:.1f} KB")
+    plt.axis("off")
 
     for i, k in enumerate(k_values):
         # Tái tạo từng kênh màu
@@ -110,17 +116,20 @@ def compress_and_show_images(image_url: str):
 
         compressed_color_size = k * (m + n + 1) * 3
         compression_ratio_color = compressed_color_size / original_color_size
+        mse_color = np.mean((original_img_array - recon_img_array) ** 2)
 
         plt.subplot(2, 3, i + 2)
         plt.imshow(recon_img_array.astype(np.uint8))
-        plt.title(f'k = {k}\nTỉ lệ nén: {compression_ratio_color:.2%}')
-        plt.axis('off')
+        plt.title(
+            f"k = {k}\nSize: {compressed_color_size / 1024:.1f} KB ({compression_ratio_color:.1%})\nMSE: {mse_color:.2f}"
+        )
+        plt.axis("off")
 
-    plt.suptitle('Nén ảnh màu bằng SVD', fontsize=16)
+    plt.suptitle("Nén ảnh màu bằng SVD", fontsize=16)
     plt.tight_layout(rect=[0, 0.03, 1, 0.95], h_pad=4)
     plt.show()
 
 
-IMAGE_URL = "https://images.unsplash.com/photo-1542838132-92c53300491e?w=800"
+IMAGE_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJxo2NFiYcR35GzCk5T3nxA7rGlSsXvIfJwg&s"
 
 compress_and_show_images(IMAGE_URL)
