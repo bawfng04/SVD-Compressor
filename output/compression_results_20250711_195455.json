@@ -1,0 +1,58 @@
+{
+  "timestamp": "2025-07-11T19:54:55.344305",
+  "image_info": {
+    "source": "https://static.vecteezy.com/system/resources/thumbnails/030/657/258/small/a-simple-digital-wallpaper-minimalist-free-photo.jpg",
+    "source_type": "url",
+    "shape": [
+      200,
+      357,
+      3
+    ],
+    "optimal_k": 1,
+    "processing_time": 29.236756324768066
+  },
+  "config": {
+    "energy_threshold": 0.95,
+    "max_image_size": [
+      2048,
+      2048
+    ],
+    "output_format": "png"
+  },
+  "gray_metrics": [
+    {
+      "k": 10,
+      "size_kb": 5.44921875,
+      "ratio": 0.07815126050420168,
+      "mse": 15.185630519272335,
+      "psnr": 36.316475319922375,
+      "ssim": 0.9963927605775067
+    },
+    {
+      "k": 50,
+      "size_kb": 27.24609375,
+      "ratio": 0.3907563025210084,
+      "mse": 0.7369700523558792,
+      "psnr": 49.45630520716922,
+      "ssim": 0.9998255379792215
+    }
+  ],
+  "color_metrics": [
+    {
+      "k": 10,
+      "size_kb": 16.34765625,
+      "ratio": 0.07815126050420168,
+      "mse": 16.31664713375426,
+      "psnr": 36.00449439348793,
+      "ssim": 0.9979619251177932
+    },
+    {
+      "k": 50,
+      "size_kb": 81.73828125,
+      "ratio": 0.3907563025210084,
+      "mse": 0.8581400616149558,
+      "psnr": 48.7952218371594,
+      "ssim": 0.9998930187682677
+    }
+  ]
+}
