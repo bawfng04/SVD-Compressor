@@ -1,6 +1,6 @@
 # SVD Image Compressor 🎯
 
-An **ultra-advanced** Python tool for image compression using Singular Value Decomposition (SVD) with comprehensive analysis, visualization, and 20+ quality metrics.
+A Python tool for image compression using Singular Value Decomposition (SVD) with comprehensive analysis, visualization, and 20+ quality metrics.
 
 ![Comprehensive Analysis](readme_images/analysis_20250711_204615_comprehensive_analysis.png)
 
